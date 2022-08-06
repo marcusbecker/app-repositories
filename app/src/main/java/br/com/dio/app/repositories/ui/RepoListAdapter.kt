@@ -1,10 +1,12 @@
 package br.com.dio.app.repositories.ui
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import br.com.dio.app.repositories.core.convertLanguageToColor
 import br.com.dio.app.repositories.data.model.Repo
 import br.com.dio.app.repositories.databinding.ItemRepoBinding
 import com.bumptech.glide.Glide
@@ -31,8 +33,13 @@ class RepoListAdapter : ListAdapter<Repo, RepoListAdapter.ViewHolder>(DiffCallba
             binding.tvRepoLanguage.text = item.language
             binding.chipStar.text = item.stargazersCount.toString()
 
+            val langColor = binding.root.convertLanguageToColor(item.language)
+            binding.tvRepoLanguage.setTextColor(Color.parseColor(langColor))
+
             Glide.with(binding.root.context)
-                .load(item.owner.avatarURL).into(binding.ivOwner)
+                .load(item.owner.avatarURL)
+                .circleCrop()
+                .into(binding.ivOwner)
         }
     }
 }
